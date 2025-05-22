@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- favicon -->
+    <link rel="shortcut icon" href="Assets/img/favicon/logo.png" type="image/x-icon">
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- bootstrap cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- cloud cdn  -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css'>
+
+    <!-- bootstrap local -->
+    <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.css">
+
+    <!-- custom css  -->
+    <link rel="stylesheet" href="Assets/css/style.css" />
+    <title>SRECOEDZ - Message Management</title>
+    <style>
+        .message-content {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .message-preview {
+            cursor: pointer;
+        }
+        .message-preview:hover {
+            background-color: #f8f9fa;
+        }
+        .message-detail {
+            display: none;
+        }
+        .message-detail.active {
+            display: block;
+        }
+        .status-badge {
+            width: 80px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- navbar -->
+    <nav class="shadow-lg">
+        <div class="logo">
+            <img src="Assets/img/logo/logo.png" alt="Logo Image">
+        </div>
+        <ul class="min-link">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="music.html">MUSIC</a></li>
+            <li><a href="video.html">VIDEO</a></li>
+            <li><a href="admin.html">ADMIN</a></li>
+        </ul>
+        <div class="hamburger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="music.html">MUSIC</a></li>
+            <li><a href="video.html">VIDEOS</a></li>
+            <li><a href="album.html">ALBUM</a></li>
+            <li><a href="artists.html">ARTISTS</a></li>
+            <li><a href="news.html">NEWS</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="admin.html">ADMIN</a></li>
+        </ul>
+    </nav>
+    <!-- navbar  -->
+
+    <!-- Message Management Content -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1>Message Center</h1>
+                    <a href="admin.html" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+
+                <!-- Breadcrumb Navigation -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="admin.html">Admin Panel</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Message Center</li>
+                    </ol>
+                </nav>
+                
+                <!-- Message List -->
+                <div class="card shadow">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Manage Contact Messages</h5>
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control" id="searchMessage" placeholder="Search messages...">
+                                <select class="form-select" id="filterStatus" style="width: auto;">
+                                    <option value="">All Status</option>
+                                    <option value="new">New</option>
+                                    <option value="read">Read</option>
+                                    <option value="replied">Replied</option>
+                                    <option value="archived">Archived</option>
+                                </select>
+                                <select class="form-select" id="filterType" style="width: auto;">
+                                    <option value="">All Types</option>
+                                    <option value="general">General</option>
+                                    <option value="support">Support</option>
+                                    <option value="business">Business</option>
+                                    <option value="feedback">Feedback</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Message List -->
+                            <div class="col-md-4">
+                                <div class="list-group">
+                                    <div id="messageList">
+                                        <!-- Message previews will be populated dynamically -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Message Detail -->
+                            <div class="col-md-8">
+                                <div id="messageDetail" class="message-detail">
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <h5 class="mb-0" id="messageSubject">Message Subject</h5>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-primary" onclick="markAsRead()">
+                                                    <i class="fas fa-check"></i> Mark as Read
+                                                </button>
+                                                <button class="btn btn-sm btn-success" onclick="replyToMessage()">
+                                                    <i class="fas fa-reply"></i> Reply
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" onclick="deleteMessage()">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <strong>From:</strong> <span id="messageFrom"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <strong>Date:</strong> <span id="messageDate"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <strong>Type:</strong> <span id="messageType"></span>
+                                            </div>
+                                            <div class="mb-3">
+                                                <strong>Status:</strong> <span id="messageStatus"></span>
+                                            </div>
+                                            <hr>
+                                            <div class="message-content" id="messageContent">
+                                                <!-- Message content will be populated dynamically -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reply Modal -->
+    <div class="modal fade" id="replyModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reply to Message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="replyForm">
+                        <div class="mb-3">
+                            <label for="replyTo" class="form-label">To</label>
+                            <input type="email" class="form-control" id="replyTo" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="replySubject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="replySubject" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="replyContent" class="form-label">Message</label>
+                            <textarea class="form-control" id="replyContent" rows="5" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="sendReply()">Send Reply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="Assets/js/index.js"></script>
+    <script>
+        // Sample data - replace with actual data from your backend
+        const sampleMessages = [
+            {
+                id: 1,
+                subject: 'General Inquiry',
+                from: 'john.doe@example.com',
+                date: '2024-03-20 10:30',
+                type: 'General',
+                status: 'New',
+                content: 'I would like to know more about your services...'
+            },
+            {
+                id: 2,
+                subject: 'Technical Support',
+                from: 'jane.smith@example.com',
+                date: '2024-03-19 15:45',
+                type: 'Support',
+                status: 'Read',
+                content: 'I am having trouble accessing the music player...'
+            }
+        ];
+
+        let currentMessageId = null;
+        const replyModal = new bootstrap.Modal(document.getElementById('replyModal'));
+
+        // Populate message list
+        const messageList = document.getElementById('messageList');
+        sampleMessages.forEach(message => {
+            const messageItem = document.createElement('a');
+            messageItem.href = '#';
+            messageItem.className = 'list-group-item list-group-item-action message-preview';
+            messageItem.innerHTML = `
+                <div class="d-flex w-100 justify-content-between">
+                    <h6 class="mb-1">${message.subject}</h6>
+                    <small>${message.date}</small>
+                </div>
+                <p class="mb-1">${message.from}</p>
+                <small>
+                    <span class="badge ${getStatusBadgeClass(message.status)} status-badge">
+                        ${message.status}
+                    </span>
+                </small>
+            `;
+            messageItem.onclick = () => showMessageDetail(message.id);
+            messageList.appendChild(messageItem);
+        });
+
+        function getStatusBadgeClass(status) {
+            switch (status.toLowerCase()) {
+                case 'new': return 'bg-primary';
+                case 'read': return 'bg-secondary';
+                case 'replied': return 'bg-success';
+                case 'archived': return 'bg-dark';
+                default: return 'bg-secondary';
+            }
+        }
+
+        function showMessageDetail(messageId) {
+            const message = sampleMessages.find(m => m.id === messageId);
+            if (!message) return;
+
+            currentMessageId = messageId;
+            const detail = document.getElementById('messageDetail');
+            detail.classList.add('active');
+
+            document.getElementById('messageSubject').textContent = message.subject;
+            document.getElementById('messageFrom').textContent = message.from;
+            document.getElementById('messageDate').textContent = message.date;
+            document.getElementById('messageType').textContent = message.type;
+            document.getElementById('messageStatus').innerHTML = `
+                <span class="badge ${getStatusBadgeClass(message.status)}">
+                    ${message.status}
+                </span>
+            `;
+            document.getElementById('messageContent').textContent = message.content;
+
+            // Update active state in list
+            const items = messageList.getElementsByClassName('message-preview');
+            Array.from(items).forEach(item => {
+                item.classList.remove('active');
+                if (item.querySelector('h6').textContent === message.subject) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        function markAsRead() {
+            if (!currentMessageId) return;
+            // Add your mark as read logic here
+            alert('Mark as read functionality will be implemented here');
+        }
+
+        function replyToMessage() {
+            if (!currentMessageId) return;
+            const message = sampleMessages.find(m => m.id === currentMessageId);
+            if (!message) return;
+
+            document.getElementById('replyTo').value = message.from;
+            document.getElementById('replySubject').value = `Re: ${message.subject}`;
+            document.getElementById('replyContent').value = '';
+            replyModal.show();
+        }
+
+        function sendReply() {
+            // Add your reply sending logic here
+            alert('Reply sending functionality will be implemented here');
+            replyModal.hide();
+        }
+
+        function deleteMessage() {
+            if (!currentMessageId) return;
+            if (confirm('Are you sure you want to delete this message?')) {
+                // Add your delete logic here
+                alert('Delete functionality will be implemented here');
+            }
+        }
+
+        // Search functionality
+        document.getElementById('searchMessage').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const items = messageList.getElementsByClassName('message-preview');
+            
+            Array.from(items).forEach(item => {
+                const subject = item.querySelector('h6').textContent.toLowerCase();
+                const from = item.querySelector('p').textContent.toLowerCase();
+                
+                if (subject.includes(searchTerm) || from.includes(searchTerm)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter functionality
+        function applyFilters() {
+            const selectedStatus = document.getElementById('filterStatus').value.toLowerCase();
+            const selectedType = document.getElementById('filterType').value.toLowerCase();
+            const items = messageList.getElementsByClassName('message-preview');
+            
+            Array.from(items).forEach(item => {
+                const status = item.querySelector('.badge').textContent.toLowerCase();
+                const type = item.querySelector('p').textContent.toLowerCase();
+                
+                const statusMatch = !selectedStatus || status === selectedStatus;
+                const typeMatch = !selectedType || type === selectedType;
+                
+                item.style.display = statusMatch && typeMatch ? '' : 'none';
+            });
+        }
+
+        document.getElementById('filterStatus').addEventListener('change', applyFilters);
+        document.getElementById('filterType').addEventListener('change', applyFilters);
+    </script>
+</body>
+
+</html> 

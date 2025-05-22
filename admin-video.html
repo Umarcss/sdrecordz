@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- favicon -->
+    <link rel="shortcut icon" href="Assets/img/favicon/logo.png" type="image/x-icon">
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- bootstrap cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- cloud cdn  -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css'>
+
+    <!-- bootstrap local -->
+    <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.css">
+
+    <!-- custom css  -->
+    <link rel="stylesheet" href="Assets/css/style.css" />
+    <title>SRECOEDZ - Video Management</title>
+    <style>
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: cover;
+        }
+        .video-preview {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- navbar -->
+    <nav class="shadow-lg">
+        <div class="logo">
+            <img src="Assets/img/logo/logo.png" alt="Logo Image">
+        </div>
+        <ul class="min-link">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="music.html">MUSIC</a></li>
+            <li><a href="video.html">VIDEO</a></li>
+            <li><a href="admin.html">ADMIN</a></li>
+        </ul>
+        <div class="hamburger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="music.html">MUSIC</a></li>
+            <li><a href="video.html">VIDEOS</a></li>
+            <li><a href="album.html">ALBUM</a></li>
+            <li><a href="artists.html">ARTISTS</a></li>
+            <li><a href="news.html">NEWS</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="admin.html">ADMIN</a></li>
+        </ul>
+    </nav>
+    <!-- navbar  -->
+
+    <!-- Video Management Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4" style="margin-top: 145px !important;">
+                    <h1>Video Management</h1>
+                    <a href="admin.html" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+
+               
+                
+                <!-- Upload New Video -->
+                <div class="card shadow mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Upload New Video</h5>
+                        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#uploadForm">
+                            Toggle Form
+                        </button>
+                    </div>
+                    <div class="card-body collapse show" id="uploadForm">
+                        <form id="uploadVideoForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="videoTitle" class="form-label">Video Title</label>
+                                    <input type="text" class="form-control" id="videoTitle" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="artist" class="form-label">Artist</label>
+                                    <select class="form-select" id="artist" required>
+                                        <option value="">Select Artist</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="category" class="form-label">Category</label>
+                                    <select class="form-select" id="category" required>
+                                        <option value="">Select Category</option>
+                                        <option value="music-video">Music Video</option>
+                                        <option value="behind-scenes">Behind the Scenes</option>
+                                        <option value="interview">Interview</option>
+                                        <option value="live-performance">Live Performance</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="releaseDate" class="form-label">Release Date</label>
+                                    <input type="date" class="form-control" id="releaseDate" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="videoFile" class="form-label">Video File</label>
+                                    <input type="file" class="form-control" id="videoFile" accept="video/*" required>
+                                    <video id="videoPreview" class="video-preview" controls style="display: none;"></video>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="thumbnail" class="form-label">Thumbnail</label>
+                                    <input type="file" class="form-control" id="thumbnail" accept="image/*" required>
+                                    <img id="thumbnailPreview" class="preview-image mt-2" style="display: none;">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tags" class="form-label">Tags</label>
+                                <input type="text" class="form-control" id="tags" placeholder="Separate tags with commas">
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="featured">
+                                    <label class="form-check-label" for="featured">
+                                        Feature this video on homepage
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Upload Video</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Video List -->
+                <div class="card shadow">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Manage Existing Videos</h5>
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control" id="searchVideo" placeholder="Search videos...">
+                                <select class="form-select" id="filterCategory" style="width: auto;">
+                                    <option value="">All Categories</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Thumbnail</th>
+                                        <th>Title</th>
+                                        <th>Artist</th>
+                                        <th>Category</th>
+                                        <th>Release Date</th>
+                                        <th>Views</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="videoList">
+                                    <!-- Video entries will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="Assets/js/index.js"></script>
+    <script src="Assets/js/admin.js"></script>
+    <script>
+        // Sample data - replace with actual data from your backend
+        const sampleArtists = ['Artist 1', 'Artist 2', 'Artist 3'];
+        const sampleVideos = [
+            {
+                title: 'Sample Video 1',
+                artist: 'Artist 1',
+                category: 'Music Video',
+                releaseDate: '2024-03-20',
+                views: 1000,
+                status: 'Published',
+                thumbnail: 'path/to/thumbnail1.jpg'
+            },
+            {
+                title: 'Sample Video 2',
+                artist: 'Artist 2',
+                category: 'Behind the Scenes',
+                releaseDate: '2024-03-19',
+                views: 500,
+                status: 'Draft',
+                thumbnail: 'path/to/thumbnail2.jpg'
+            }
+        ];
+
+        // Populate artists dropdown
+        const artistSelect = document.getElementById('artist');
+        sampleArtists.forEach(artist => {
+            const option = document.createElement('option');
+            option.value = artist;
+            option.textContent = artist;
+            artistSelect.appendChild(option);
+        });
+
+        // Populate category filter
+        const categoryFilter = document.getElementById('filterCategory');
+        const categories = ['Music Video', 'Behind the Scenes', 'Interview', 'Live Performance'];
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            categoryFilter.appendChild(option);
+        });
+
+        // Populate video list
+        const videoList = document.getElementById('videoList');
+        sampleVideos.forEach(video => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <img src="${video.thumbnail}" alt="${video.title}" class="rounded" width="80" height="45">
+                </td>
+                <td>${video.title}</td>
+                <td>${video.artist}</td>
+                <td>${video.category}</td>
+                <td>${video.releaseDate}</td>
+                <td>${video.views}</td>
+                <td>
+                    <span class="badge ${video.status === 'Published' ? 'bg-success' : 'bg-warning'}">
+                        ${video.status}
+                    </span>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-primary" onclick="editVideo('${video.title}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-info" onclick="previewVideo('${video.title}')">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteVideo('${video.title}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            `;
+            videoList.appendChild(row);
+        });
+
+        // Preview functionality
+        document.getElementById('videoFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const videoPreview = document.getElementById('videoPreview');
+                videoPreview.src = URL.createObjectURL(file);
+                videoPreview.style.display = 'block';
+            }
+        });
+
+        document.getElementById('thumbnail').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const thumbnailPreview = document.getElementById('thumbnailPreview');
+                thumbnailPreview.src = URL.createObjectURL(file);
+                thumbnailPreview.style.display = 'block';
+            }
+        });
+
+        // Search functionality
+        document.getElementById('searchVideo').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = videoList.getElementsByTagName('tr');
+            
+            Array.from(rows).forEach(row => {
+                const title = row.cells[1].textContent.toLowerCase();
+                const artist = row.cells[2].textContent.toLowerCase();
+                const category = row.cells[3].textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || artist.includes(searchTerm) || category.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter functionality
+        document.getElementById('filterCategory').addEventListener('change', function(e) {
+            const selectedCategory = e.target.value.toLowerCase();
+            const rows = videoList.getElementsByTagName('tr');
+            
+            Array.from(rows).forEach(row => {
+                const category = row.cells[3].textContent.toLowerCase();
+                
+                if (!selectedCategory || category === selectedCategory) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Handle form submission
+        document.getElementById('uploadVideoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your upload logic here
+            alert('Video upload functionality will be implemented here');
+        });
+
+        function editVideo(title) {
+            // Add your edit logic here
+            alert(`Edit functionality for ${title} will be implemented here`);
+        }
+
+        function previewVideo(title) {
+            // Add your preview logic here
+            alert(`Preview functionality for ${title} will be implemented here`);
+        }
+
+        function deleteVideo(title) {
+            if (confirm(`Are you sure you want to delete ${title}?`)) {
+                // Add your delete logic here
+                alert(`Delete functionality for ${title} will be implemented here`);
+            }
+        }
+    </script>
+</body>
+
+</html> 

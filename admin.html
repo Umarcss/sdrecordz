@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- favicon -->
+    <link rel="shortcut icon" href="Assets/img/favicon/logo.png" type="image/x-icon">
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- bootstrap cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- cloud cdn  -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css'>
+
+    <!-- bootstrap local -->
+    <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.css">
+
+    <!-- custom css  -->
+    <link rel="stylesheet" href="Assets/css/style.css" />
+    <title>SRECOEDZ - Admin Panel</title>
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+        }
+        .admin-panel {
+            display: none;
+        }
+        .admin-panel.active {
+            display: block;
+        }
+        .login-form {
+            display: block;
+        }
+        .login-form.hidden {
+            display: none;
+        }
+        .stats-card {
+            background: linear-gradient(45deg, #4b6cb7, #182848);
+            color: white;
+        }
+        .stats-card .card-body {
+            padding: 1.5rem;
+        }
+        .stats-card i {
+            font-size: 2.5rem;
+            opacity: 0.8;
+        }
+        .stats-card .stats-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .stats-card .stats-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .quick-action-btn {
+            width: 100%;
+            margin-bottom: 10px;
+            text-align: left;
+            padding: 10px 15px;
+        }
+        .quick-action-btn i {
+            margin-right: 10px;
+            width: 20px;
+        }
+        .system-status {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .status-good {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .activity-feed {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .activity-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        .activity-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+        }
+        .notification-dropdown {
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .notification-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .notification-item:hover {
+            background-color: #f8f9fa;
+        }
+        .notification-item.unread {
+            background-color: #e8f4ff;
+        }
+        .notification-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        .chart-container {
+            position: relative;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        .trend-indicator {
+            font-size: 0.8rem;
+            padding: 2px 6px;
+            border-radius: 12px;
+        }
+        .trend-up {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .trend-down {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #28a745;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: none;
+        }
+        .chat-header {
+            padding: 10px;
+            background: #4b6cb7;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+        }
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .chat-input {
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        .message.sent {
+            background: #4b6cb7;
+            color: white;
+            margin-left: auto;
+        }
+        .message.received {
+            background: #f8f9fa;
+            margin-right: auto;
+        }
+        .alert-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+        .chart-tooltip {
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        .metric-card {
+            transition: transform 0.2s;
+        }
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        .notification-item.critical {
+            border-left: 4px solid #dc3545;
+        }
+        .notification-item.warning {
+            border-left: 4px solid #ffc107;
+        }
+        .notification-item.info {
+            border-left: 4px solid #17a2b8;
+        }
+        .draggable {
+            cursor: move;
+            user-select: none;
+        }
+        .dragging {
+            opacity: 0.5;
+            transform: scale(1.05);
+        }
+        .drop-zone {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .drop-zone.drag-over {
+            border-color: #4b6cb7;
+            background-color: rgba(75, 108, 183, 0.1);
+        }
+        .system-monitor {
+            position: relative;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        .gauge-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .gauge-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .heatmap-container {
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        .monitor-card {
+            transition: all 0.3s;
+        }
+        .monitor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .monitor-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .monitor-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .monitor-trend {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+        .monitor-trend.up {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .monitor-trend.down {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .file-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .preview-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .preview-item .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(255,255,255,0.8);
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .preview-item .file-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px;
+            font-size: 0.8rem;
+        }
+        .chart-controls {
+            margin-bottom: 15px;
+        }
+        .chart-controls .btn-group {
+            margin-right: 10px;
+        }
+        .metric-detail {
+            position: absolute;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 10px;
+            z-index: 1000;
+            display: none;
+        }
+        .metric-detail.active {
+            display: block;
+        }
+        .sparkline {
+            height: 50px;
+            margin-top: 10px;
+        }
+        .alert-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+        .chart-type-selector {
+            margin-bottom: 15px;
+        }
+        .chart-type-btn {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .compression-options {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .compression-slider {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .monitor-detail {
+            position: absolute;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            z-index: 1000;
+            display: none;
+            min-width: 300px;
+        }
+        .monitor-detail.active {
+            display: block;
+        }
+        .metric-history {
+            height: 100px;
+            margin-top: 10px;
+        }
+        .alert-threshold {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(255,255,255,0.9);
+            padding: 5px 10px;
+            border-radius: 0 5px;
+            font-size: 0.8rem;
+        }
+        .realtime-indicator {
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- navbar -->
+    <nav class="shadow-lg">
+        <div class="logo">
+            <img src="Assets/img/logo/logo.png" alt="Logo Image">
+        </div>
+        <ul class="min-link">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="music.html">MUSIC</a></li>
+            <li><a href="video.html">VIDEO</a></li>
+            <li><a href="admin.html">ADMIN</a></li>
+        </ul>
+        <div class="hamburger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="music.html">MUSIC</a></li>
+            <li><a href="video.html">VIDEOS</a></li>
+            <li><a href="album.html">ALBUM</a></li>
+            <li><a href="artists.html">ARTISTS</a></li>
+            <li><a href="news.html">NEWS</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="admin.html">ADMIN</a></li>
+        </ul>
+    </nav>
+    <!-- navbar  -->
+
+    <!-- Login Form -->
+    <div class="login-form" id="loginForm">
+        <div class="container login-container">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Admin Login</h2>
+                    <form id="adminLoginForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel Content -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h1>Admin Panel</h1>
+                        <div>
+                            <div class="dropdown d-inline-block me-2">
+                                <button class="btn btn-outline-secondary position-relative" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-bell"></i>
+                                    <span class="notification-badge">3</span>
+                                </button>
+                                <div class="dropdown-menu notification-dropdown" aria-labelledby="notificationDropdown">
+                                    <h6 class="dropdown-header">Notifications</h6>
+                                    <div class="notification-item unread">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>New User Registration</strong>
+                                            <span class="notification-time">2m ago</span>
+                                        </div>
+                                        <p class="mb-0">John Doe has registered as a new artist</p>
+                                    </div>
+                                    <div class="notification-item unread">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>Storage Warning</strong>
+                                            <span class="notification-time">15m ago</span>
+                                        </div>
+                                        <p class="mb-0">Storage usage is at 75% capacity</p>
+                                    </div>
+                                    <div class="notification-item unread">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>Backup Required</strong>
+                                            <span class="notification-time">1h ago</span>
+                                        </div>
+                                        <p class="mb-0">System backup is overdue</p>
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-center" href="#">View All Notifications</a>
+                                </div>
+                            </div>
+                            <button class="btn btn-info me-2" onclick="showDashboard()">
+                                <i class="fas fa-chart-line"></i> Dashboard
+                            </button>
+                            <button class="btn btn-danger" onclick="logout()">Logout</button>
+                        </div>
+                    </div>
+
+                    <!-- Breadcrumb Navigation -->
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="admin.html">Admin Panel</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                        </ol>
+                    </nav>
+
+                    <!-- Dashboard Overview -->
+                    <div class="card shadow mb-4" id="dashboardOverview">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Dashboard Overview</h5>
+                            <span class="text-muted">
+                                <span class="live-indicator"></span>
+                                Live Updates
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <!-- Enhanced Stats Cards -->
+                            <div class="row">
+                                <div class="col-md-3 mb-4">
+                                    <div class="card stats-card metric-card">
+                                        <div class="card-body">
+                                            <i class="fas fa-music mb-3"></i>
+                                            <div class="stats-number" data-value="150">150</div>
+                                            <div class="stats-label">Total Tracks</div>
+                                            <div class="trend-indicator trend-up mt-2">
+                                                <i class="fas fa-arrow-up"></i> 5.2%
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-4">
+                                    <div class="card stats-card metric-card">
+                                        <div class="card-body">
+                                            <i class="fas fa-users mb-3"></i>
+                                            <div class="stats-number" data-value="25">25</div>
+                                            <div class="stats-label">Active Artists</div>
+                                            <div class="trend-indicator trend-up mt-2">
+                                                <i class="fas fa-arrow-up"></i> 2.5%
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-4">
+                                    <div class="card stats-card metric-card">
+                                        <div class="card-body">
+                                            <i class="fas fa-eye mb-3"></i>
+                                            <div class="stats-number" data-value="10.5K">10.5K</div>
+                                            <div class="stats-label">Monthly Views</div>
+                                            <div class="trend-indicator trend-up mt-2">
+                                                <i class="fas fa-arrow-up"></i> +12.5%
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-4">
+                                    <div class="card stats-card metric-card">
+                                        <div class="card-body">
+                                            <i class="fas fa-envelope mb-3"></i>
+                                            <div class="stats-number" data-value="45">45</div>
+                                            <div class="stats-label">New Messages</div>
+                                            <div class="trend-indicator trend-up mt-2">
+                                                <i class="fas fa-arrow-up"></i> +5
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Enhanced Performance Metrics -->
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="card shadow-sm">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0">Performance Metrics</h6>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary active" data-period="day">Day</button>
+                                                <button class="btn btn-sm btn-outline-secondary" data-period="week">Week</button>
+                                                <button class="btn btn-sm btn-outline-secondary" data-period="month">Month</button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="chart-container">
+                                                <canvas id="performanceChart"></canvas>
+                                            </div>
+                                            <div class="row text-center">
+                                                <div class="col-4">
+                                                    <h4>98.5%</h4>
+                                                    <small class="text-muted">Uptime</small>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h4>245ms</h4>
+                                                    <small class="text-muted">Response Time</small>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h4>1.2K</h4>
+                                                    <small class="text-muted">Requests/min</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card shadow-sm">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0">Traffic Analysis</h6>
+                                            <div class="btn-group">
+                                                <button class="btn btn-sm btn-outline-secondary active" data-view="visitors">Visitors</button>
+                                                <button class="btn btn-sm btn-outline-secondary" data-view="pageviews">Pageviews</button>
+                                                <button class="btn btn-sm btn-outline-secondary" data-view="bounce">Bounce Rate</button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="chart-container">
+                                                <canvas id="trafficChart"></canvas>
+                                            </div>
+                                            <div class="row text-center">
+                                                <div class="col-4">
+                                                    <h4>+12.5%</h4>
+                                                    <small class="trend-indicator trend-up">↑ Traffic</small>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h4>45%</h4>
+                                                    <small class="text-muted">Mobile Users</small>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h4>2.5m</h4>
+                                                    <small class="text-muted">Page Views</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced System Monitoring -->
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <div class="card shadow-sm">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0">System Monitoring</h6>
+                                            <div class="d-flex">
+                                                <div class="btn-group me-3">
+                                                    <button class="btn btn-sm btn-outline-secondary active" data-view="realtime">Real-time</button>
+                                                    <button class="btn btn-sm btn-outline-secondary" data-view="history">History</button>
+                                                    <button class="btn btn-sm btn-outline-secondary" data-view="alerts">Alerts</button>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-sm btn-outline-secondary" data-period="1h">1H</button>
+                                                    <button class="btn btn-sm btn-outline-secondary active" data-period="6h">6H</button>
+                                                    <button class="btn btn-sm btn-outline-secondary" data-period="24h">24H</button>
+                                                    <button class="btn btn-sm btn-outline-secondary" data-period="7d">7D</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="card monitor-card">
+                                                        <div class="card-body text-center">
+                                                            <div class="system-monitor" data-metric="cpu">
+                                                                <canvas id="cpuGauge"></canvas>
+                                                                <div class="gauge-value">65%</div>
+                                                                <div class="alert-threshold">Alert: >80%</div>
+                                                            </div>
+                                                            <div class="monitor-label">CPU Usage</div>
+                                                            <div class="monitor-trend up">
+                                                                <i class="fas fa-arrow-up"></i> 5%
+                                                            </div>
+                                                            <div class="sparkline" id="cpuSparkline"></div>
+                                                            <div class="metric-history" id="cpuHistory"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="card monitor-card">
+                                                        <div class="card-body text-center">
+                                                            <div class="system-monitor">
+                                                                <canvas id="memoryGauge"></canvas>
+                                                                <div class="gauge-value">78%</div>
+                                                            </div>
+                                                            <div class="monitor-label">Memory Usage</div>
+                                                            <div class="monitor-trend up">
+                                                                <i class="fas fa-arrow-up"></i> 3%
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="card monitor-card">
+                                                        <div class="card-body text-center">
+                                                            <div class="system-monitor">
+                                                                <canvas id="diskGauge"></canvas>
+                                                                <div class="gauge-value">45%</div>
+                                                            </div>
+                                                            <div class="monitor-label">Disk Usage</div>
+                                                            <div class="monitor-trend down">
+                                                                <i class="fas fa-arrow-down"></i> 2%
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="card monitor-card">
+                                                        <div class="card-body text-center">
+                                                            <div class="system-monitor">
+                                                                <canvas id="networkGauge"></canvas>
+                                                                <div class="gauge-value">82%</div>
+                                                            </div>
+                                                            <div class="monitor-label">Network Load</div>
+                                                            <div class="monitor-trend up">
+                                                                <i class="fas fa-arrow-up"></i> 8%
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-md-8">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                <h6 class="card-title mb-0">Resource Usage Analysis</h6>
+                                                                <div class="chart-controls">
+                                                                    <div class="btn-group">
+                                                                        <button class="btn btn-sm btn-outline-secondary active" data-type="heatmap">Heatmap</button>
+                                                                        <button class="btn btn-sm btn-outline-secondary" data-type="line">Line</button>
+                                                                        <button class="btn btn-sm btn-outline-secondary" data-type="bar">Bar</button>
+                                                                        <button class="btn btn-sm btn-outline-secondary" data-type="radar">Radar</button>
+                                                                        <button class="btn btn-sm btn-outline-secondary" data-type="bubble">Bubble</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="heatmap-container">
+                                                                <canvas id="resourceHeatmap"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                <h6 class="card-title mb-0">System Events</h6>
+                                                                <span class="badge bg-danger">3 New</span>
+                                                            </div>
+                                                            <div class="system-events" style="max-height: 200px; overflow-y: auto;">
+                                                                <div class="event-item alert alert-danger">
+                                                                    <small class="text-muted">2 mins ago</small>
+                                                                    <p class="mb-0">High CPU usage detected (95%)</p>
+                                                                </div>
+                                                                <div class="event-item alert alert-success">
+                                                                    <small class="text-muted">5 mins ago</small>
+                                                                    <p class="mb-0">Database backup completed</p>
+                                                                </div>
+                                                                <div class="event-item alert alert-info">
+                                                                    <small class="text-muted">10 mins ago</small>
+                                                                    <p class="mb-0">New user registration</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced File Upload -->
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <div class="card shadow-sm">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">Quick Upload</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="drop-zone" id="uploadZone">
+                                                <i class="fas fa-cloud-upload-alt fa-3x mb-3"></i>
+                                                <h5>Drag & Drop Files Here</h5>
+                                                <p class="text-muted">or click to browse files</p>
+                                                <input type="file" id="fileInput" style="display: none;" multiple accept="image/*,video/*,audio/*">
+                                            </div>
+                                            <div class="compression-options" style="display: none;">
+                                                <h6>Compression Options</h6>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="enableCompression" checked>
+                                                    <label class="form-check-label" for="enableCompression">
+                                                        Enable Compression
+                                                    </label>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <label>Compression Quality</label>
+                                                    <input type="range" class="compression-slider" min="0" max="100" value="80">
+                                                    <small class="text-muted">Higher quality = larger file size</small>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <label>Resize Images</label>
+                                                    <div class="input-group">
+                                                        <input type="number" class="form-control" placeholder="Max width" value="1920">
+                                                        <span class="input-group-text">×</span>
+                                                        <input type="number" class="form-control" placeholder="Max height" value="1080">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="file-preview" id="filePreview"></div>
+                                            <div id="uploadProgress" class="mt-3" style="display: none;">
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Real-time Chat -->
+                            <div class="chat-container" id="adminChat">
+                                <div class="chat-header" onclick="toggleChat()">
+                                    <i class="fas fa-comments"></i> Admin Chat
+                                    <span class="badge bg-danger ms-2">2</span>
+                                </div>
+                                <div class="chat-messages" id="chatMessages">
+                                    <div class="message received">
+                                        <strong>System</strong>
+                                        <p>Welcome to the admin chat!</p>
+                                    </div>
+                                    <div class="message received">
+                                        <strong>John (Support)</strong>
+                                        <p>Need help with anything?</p>
+                                    </div>
+                                </div>
+                                <div class="chat-input">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="chatInput" placeholder="Type a message...">
+                                        <button class="btn btn-primary" onclick="sendMessage()">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Alert Toast Container -->
+                            <div class="alert-toast" id="alertContainer"></div>
+
+                            <!-- Quick Actions and System Status -->
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <div class="card shadow-sm">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">Quick Actions</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <button class="btn btn-outline-primary quick-action-btn" onclick="quickAction('upload')">
+                                                <i class="fas fa-upload"></i> Upload New Content
+                                            </button>
+                                            <button class="btn btn-outline-success quick-action-btn" onclick="quickAction('publish')">
+                                                <i class="fas fa-paper-plane"></i> Publish Draft
+                                            </button>
+                                            <button class="btn btn-outline-info quick-action-btn" onclick="quickAction('backup')">
+                                                <i class="fas fa-save"></i> Create Backup
+                                            </button>
+                                            <button class="btn btn-outline-warning quick-action-btn" onclick="quickAction('maintenance')">
+                                                <i class="fas fa-tools"></i> Maintenance Mode
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="card shadow-sm">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">System Status</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="system-status status-good">
+                                                <i class="fas fa-check-circle"></i> Server Status: Online
+                                            </div>
+                                            <div class="system-status status-warning">
+                                                <i class="fas fa-exclamation-triangle"></i> Storage: 75% Used
+                                            </div>
+                                            <div class="system-status status-good">
+                                                <i class="fas fa-check-circle"></i> Database: Connected
+                                            </div>
+                                            <div class="system-status status-good">
+                                                <i class="fas fa-check-circle"></i> CDN: Active
+                                            </div>
+                                            <div class="system-status status-error">
+                                                <i class="fas fa-times-circle"></i> Backup: 2 days overdue
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="card shadow-sm">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">Recent Activity</h6>
+                                        </div>
+                                        <div class="card-body activity-feed">
+                                            <div class="activity-item">
+                                                <div class="d-flex justify-content-between">
+                                                    <span><i class="fas fa-user-edit"></i> User profile updated</span>
+                                                    <span class="activity-time">2 mins ago</span>
+                                                </div>
+                                            </div>
+                                            <div class="activity-item">
+                                                <div class="d-flex justify-content-between">
+                                                    <span><i class="fas fa-music"></i> New track uploaded</span>
+                                                    <span class="activity-time">15 mins ago</span>
+                                                </div>
+                                            </div>
+                                            <div class="activity-item">
+                                                <div class="d-flex justify-content-between">
+                                                    <span><i class="fas fa-newspaper"></i> News article published</span>
+                                                    <span class="activity-time">1 hour ago</span>
+                                                </div>
+                                            </div>
+                                            <div class="activity-item">
+                                                <div class="d-flex justify-content-between">
+                                                    <span><i class="fas fa-user"></i> New user registered</span>
+                                                    <span class="activity-time">2 hours ago</span>
+                                                </div>
+                                            </div>
+                                            <div class="activity-item">
+                                                <div class="d-flex justify-content-between">
+                                                    <span><i class="fas fa-cog"></i> System settings updated</span>
+                                                    <span class="activity-time">3 hours ago</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Admin Pages Navigation -->
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <div class="card shadow-sm">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">Admin Pages</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4 mb-3">
+                                                    <a href="admin-music.html" class="card text-decoration-none">
+                                                        <div class="card-body">
+                                                            <i class="fas fa-music fa-2x mb-2 text-primary"></i>
+                                                            <h5 class="card-title">Music Management</h5>
+                                                            <p class="card-text text-muted">Manage music tracks, playlists, and categories</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <a href="admin-video.html" class="card text-decoration-none">
+                                                        <div class="card-body">
+                                                            <i class="fas fa-video fa-2x mb-2 text-primary"></i>
+                                                            <h5 class="card-title">Video Management</h5>
+                                                            <p class="card-text text-muted">Manage video content and categories</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <a href="admin-artists.html" class="card text-decoration-none">
+                                                        <div class="card-body">
+                                                            <i class="fas fa-users fa-2x mb-2 text-primary"></i>
+                                                            <h5 class="card-title">Artist Management</h5>
+                                                            <p class="card-text text-muted">Manage artist profiles and content</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <a href="admin-albums.html" class="card text-decoration-none">
+                                                        <div class="card-body">
+                                                            <i class="fas fa-compact-disc fa-2x mb-2 text-primary"></i>
+                                                            <h5 class="card-title">Album Management</h5>
+                                                            <p class="card-text text-muted">Manage albums and track listings</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <a href="admin-news.html" class="card text-decoration-none">
+                                                        <div class="card-body">
+                                                            <i class="fas fa-newspaper fa-2x mb-2 text-primary"></i>
+                                                            <h5 class="card-title">News Management</h5>
+                                                            <p class="card-text text-muted">Manage news articles and announcements</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <a href="admin-messages.html" class="card text-decoration-none">
+                                                        <div class="card-body">
+                                                            <i class="fas fa-envelope fa-2x mb-2 text-primary"></i>
+                                                            <h5 class="card-title">Message Center</h5>
+                                                            <p class="card-text text-muted">View and manage user messages</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <a href="admin-upload.html" class="card text-decoration-none">
+                                                        <div class="card-body">
+                                                            <i class="fas fa-cloud-upload-alt fa-2x mb-2 text-primary"></i>
+                                                            <h5 class="card-title">File Upload</h5>
+                                                            <p class="card-text text-muted">Upload and manage media files</p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="Assets/js/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-gauge"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-sparkline"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <script>
+        // Simple login functionality (replace with proper authentication in production)
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // This is a simple example. In production, use proper authentication
+            if (username === 'admin' && password === 'admin') {
+                document.getElementById('loginForm').classList.add('hidden');
+                document.getElementById('adminPanel').classList.add('active');
+                // Show dashboard by default after login
+                const dashboard = document.getElementById('dashboardOverview');
+                dashboard.style.display = 'block';
+                initializeCharts();
+                initializeSystemMonitoring();
+                updateSystemMetrics();
+                simulateRealTimeUpdates();
+                simulateNotifications();
+            } else {
+                showAlert('Invalid credentials', 'danger');
+            }
+        });
+
+        function logout() {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('adminPanel').classList.remove('active');
+            document.getElementById('adminLoginForm').reset();
+            // Hide dashboard on logout
+            const dashboard = document.getElementById('dashboardOverview');
+            dashboard.style.display = 'none';
+        }
+
+        // Dashboard functionality
+        function showDashboard() {
+            const dashboard = document.getElementById('dashboardOverview');
+            if (dashboard.style.display === 'none') {
+                dashboard.style.display = 'block';
+                initializeCharts();
+                initializeSystemMonitoring();
+                updateSystemMetrics();
+                simulateRealTimeUpdates();
+                simulateNotifications();
+            } else {
+                dashboard.style.display = 'none';
+            }
+        }
+
+        // Initialize everything when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make sure dashboard is hidden initially
+            const dashboard = document.getElementById('dashboardOverview');
+            dashboard.style.display = 'none';
+            
+            // Add click handler for notification items
+            document.querySelectorAll('.notification-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    markNotificationAsRead(this);
+                });
+            });
+        });
+
+        // Quick Actions functionality
+        function quickAction(action) {
+            switch(action) {
+                case 'upload':
+                    window.location.href = 'admin-upload.html';
+                    break;
+                case 'publish':
+                    // Show publish modal or redirect
+                    alert('Publish functionality will be implemented here');
+                    break;
+                case 'backup':
+                    // Trigger backup process
+                    alert('Backup process will be implemented here');
+                    break;
+                case 'maintenance':
+                    // Toggle maintenance mode
+                    if(confirm('Are you sure you want to toggle maintenance mode?')) {
+                        alert('Maintenance mode toggle will be implemented here');
+                    }
+                    break;
+            }
+        }
+
+        // Enhanced Chart Initialization
+        function initializeCharts() {
+            // Performance Chart with multiple datasets
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(performanceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                    datasets: [{
+                        label: 'Server Load',
+                        data: [65, 59, 80, 81, 56, 55],
+                        borderColor: '#4b6cb7',
+                        tension: 0.4
+                    }, {
+                        label: 'Memory Usage',
+                        data: [45, 50, 55, 60, 65, 70],
+                        borderColor: '#28a745',
+                        tension: 0.4
+                    }, {
+                        label: 'CPU Usage',
+                        data: [30, 35, 40, 45, 50, 55],
+                        borderColor: '#dc3545',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            padding: 10,
+                            titleColor: '#fff',
+                            bodyColor: '#fff'
+                        }
+                    }
+                }
+            });
+
+            // Traffic Chart with multiple views
+            const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+            new Chart(trafficCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Visitors',
+                        data: [1200, 1900, 1500, 2100, 1800, 2400, 2200],
+                        backgroundColor: '#4b6cb7'
+                    }, {
+                        label: 'Pageviews',
+                        data: [2400, 3800, 3000, 4200, 3600, 4800, 4400],
+                        backgroundColor: '#28a745'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            padding: 10
+                        }
+                    }
+                }
+            });
+        }
+
+        // Real-time updates simulation
+        function simulateRealTimeUpdates() {
+            setInterval(() => {
+                // Update stats randomly
+                const stats = document.querySelectorAll('.stats-number');
+                stats.forEach(stat => {
+                    const currentValue = parseInt(stat.textContent);
+                    const change = Math.floor(Math.random() * 5) - 2;
+                    const newValue = Math.max(0, currentValue + change);
+                    stat.textContent = newValue;
+                });
+
+                // Add new activity
+                const activityFeed = document.querySelector('.activity-feed');
+                const activities = [
+                    'New track uploaded',
+                    'User profile updated',
+                    'News article published',
+                    'System backup completed',
+                    'New comment received'
+                ];
+                const newActivity = activities[Math.floor(Math.random() * activities.length)];
+                
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="d-flex justify-content-between">
+                        <span><i class="fas fa-info-circle"></i> ${newActivity}</span>
+                        <span class="activity-time">Just now</span>
+                    </div>
+                `;
+                
+                activityFeed.insertBefore(activityItem, activityFeed.firstChild);
+                if (activityFeed.children.length > 5) {
+                    activityFeed.removeChild(activityFeed.lastChild);
+                }
+            }, 5000);
+        }
+
+        // Notification handling
+        function markNotificationAsRead(element) {
+            element.classList.remove('unread');
+            updateNotificationBadge();
+        }
+
+        function updateNotificationBadge() {
+            const unreadCount = document.querySelectorAll('.notification-item.unread').length;
+            const badge = document.querySelector('.notification-badge');
+            badge.textContent = unreadCount;
+            if (unreadCount === 0) {
+                badge.style.display = 'none';
+            } else {
+                badge.style.display = 'block';
+            }
+        }
+
+        // Real-time Chat Functionality
+        function toggleChat() {
+            const chat = document.getElementById('adminChat');
+            chat.style.display = chat.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (message) {
+                const chatMessages = document.getElementById('chatMessages');
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message sent';
+                messageElement.innerHTML = `
+                    <strong>You</strong>
+                    <p>${message}</p>
+                `;
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                input.value = '';
+
+                // Simulate response
+                setTimeout(() => {
+                    const responseElement = document.createElement('div');
+                    responseElement.className = 'message received';
+                    responseElement.innerHTML = `
+                        <strong>System</strong>
+                        <p>Message received. How can I help you?</p>
+                    `;
+                    chatMessages.appendChild(responseElement);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+        }
+
+        // Enhanced Notification System
+        function showAlert(message, type = 'info') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} alert-dismissible fade show`;
+            alert.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            alertContainer.appendChild(alert);
+            setTimeout(() => alert.remove(), 5000);
+        }
+
+        // Simulate various notifications
+        function simulateNotifications() {
+            const notifications = [
+                {
+                    type: 'critical',
+                    title: 'Server Error',
+                    message: 'High CPU usage detected on server-01'
+                },
+                {
+                    type: 'warning',
+                    title: 'Storage Warning',
+                    message: 'Storage usage approaching limit'
+                },
+                {
+                    type: 'info',
+                    title: 'New Feature',
+                    message: 'Analytics dashboard has been updated'
+                }
+            ];
+
+            setInterval(() => {
+                const notification = notifications[Math.floor(Math.random() * notifications.length)];
+                showAlert(`${notification.title}: ${notification.message}`, notification.type);
+            }, 30000);
+        }
+
+        // Enhanced System Monitoring
+        function initializeSystemMonitoring() {
+            // CPU Gauge with Sparkline and History
+            new Chart(document.getElementById('cpuGauge'), {
+                type: 'gauge',
+                data: {
+                    datasets: [{
+                        value: 65,
+                        data: [20, 40, 60, 80, 100],
+                        backgroundColor: ['#28a745', '#ffc107', '#dc3545']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove']
+                }
+            });
+
+            // CPU History Chart
+            new Chart(document.getElementById('cpuHistory'), {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 20}, (_, i) => i),
+                    datasets: [{
+                        label: 'CPU Usage',
+                        data: Array.from({length: 20}, () => Math.random() * 100),
+                        borderColor: '#4b6cb7',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        zoom: {
+                            zoom: {
+                                wheel: {
+                                    enabled: true
+                                },
+                                pinch: {
+                                    enabled: true
+                                },
+                                mode: 'x'
+                            },
+                            pan: {
+                                enabled: true,
+                                mode: 'x'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false
+                        },
+                        y: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Resource Analysis with Multiple Chart Types
+            const heatmapCtx = document.getElementById('resourceHeatmap').getContext('2d');
+            const heatmapChart = new Chart(heatmapCtx, {
+                type: 'matrix',
+                data: {
+                    datasets: [{
+                        data: generateHeatmapData(),
+                        backgroundColor: (context) => {
+                            const value = context.dataset.data[context.dataIndex].v;
+                            return `rgba(75, 108, 183, ${value / 100})`;
+                        },
+                        borderWidth: 1,
+                        borderColor: '#fff',
+                        width: ({ chart }) => (chart.chartArea || {}).width / 24 - 1,
+                        height: ({ chart }) => (chart.chartArea || {}).height / 7 - 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const value = context.dataset.data[context.dataIndex].v;
+                                    return `Usage: ${value.toFixed(1)}%`;
+                                }
+                            }
+                        },
+                        zoom: {
+                            zoom: {
+                                wheel: {
+                                    enabled: true
+                                },
+                                pinch: {
+                                    enabled: true
+                                },
+                                mode: 'xy'
+                            },
+                            pan: {
+                                enabled: true,
+                                mode: 'xy'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'category',
+                            labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+                            offset: true
+                        },
+                        y: {
+                            type: 'category',
+                            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                            offset: true
+                        }
+                    }
+                }
+            });
+
+            // Add chart type switching with enhanced options
+            document.querySelectorAll('[data-type]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const type = button.dataset.type;
+                    const data = generateChartData(type);
+                    heatmapChart.config.type = type;
+                    heatmapChart.data = data;
+                    heatmapChart.update();
+                    
+                    // Update active button
+                    document.querySelectorAll('[data-type]').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    button.classList.add('active');
+                });
+            });
+        }
+
+        function generateChartData(type) {
+            switch(type) {
+                case 'line':
+                    return {
+                        labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+                        datasets: [{
+                            label: 'CPU Usage',
+                            data: Array.from({length: 24}, () => Math.random() * 100),
+                            borderColor: '#4b6cb7',
+                            tension: 0.4
+                        }, {
+                            label: 'Memory Usage',
+                            data: Array.from({length: 24}, () => Math.random() * 100),
+                            borderColor: '#28a745',
+                            tension: 0.4
+                        }]
+                    };
+                case 'bar':
+                    return {
+                        labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+                        datasets: [{
+                            label: 'CPU Usage',
+                            data: Array.from({length: 24}, () => Math.random() * 100),
+                            backgroundColor: '#4b6cb7'
+                        }, {
+                            label: 'Memory Usage',
+                            data: Array.from({length: 24}, () => Math.random() * 100),
+                            backgroundColor: '#28a745'
+                        }]
+                    };
+                case 'radar':
+                    return {
+                        labels: ['CPU', 'Memory', 'Disk', 'Network', 'Processes', 'Threads'],
+                        datasets: [{
+                            label: 'Current Usage',
+                            data: Array.from({length: 6}, () => Math.random() * 100),
+                            backgroundColor: 'rgba(75, 108, 183, 0.2)',
+                            borderColor: '#4b6cb7'
+                        }]
+                    };
+                case 'bubble':
+                    return {
+                        datasets: [{
+                            label: 'Resource Usage',
+                            data: Array.from({length: 20}, () => ({
+                                x: Math.random() * 100,
+                                y: Math.random() * 100,
+                                r: Math.random() * 10 + 5
+                            })),
+                            backgroundColor: 'rgba(75, 108, 183, 0.5)'
+                        }]
+                    };
+                default:
+                    return {
+                        datasets: [{
+                            data: generateHeatmapData(),
+                            backgroundColor: (context) => {
+                                const value = context.dataset.data[context.dataIndex].v;
+                                return `rgba(75, 108, 183, ${value / 100})`;
+                            }
+                        }]
+                    };
+            }
+        }
+
+        // Enhanced Real-time Updates
+        function updateSystemMetrics() {
+            setInterval(() => {
+                // Update gauge values with smooth transitions
+                const gauges = document.querySelectorAll('.gauge-value');
+                gauges.forEach(gauge => {
+                    const currentValue = parseInt(gauge.textContent);
+                    const change = Math.floor(Math.random() * 5) - 2;
+                    const newValue = Math.max(0, Math.min(100, currentValue + change));
+                    
+                    // Smooth transition
+                    let current = currentValue;
+                    const step = (newValue - currentValue) / 10;
+                    const interval = setInterval(() => {
+                        current += step;
+                        if ((step > 0 && current >= newValue) || (step < 0 && current <= newValue)) {
+                            current = newValue;
+                            clearInterval(interval);
+                        }
+                        gauge.textContent = `${Math.round(current)}%`;
+                    }, 50);
+                });
+
+                // Update sparklines with smooth animations
+                const sparklines = document.querySelectorAll('.sparkline');
+                sparklines.forEach(sparkline => {
+                    const chart = Chart.getChart(sparkline);
+                    if (chart) {
+                        const data = chart.data.datasets[0].data;
+                        data.shift();
+                        data.push(Math.random() * 100);
+                        chart.update('none'); // Use 'none' for better performance
+                    }
+                });
+
+                // Update history charts
+                const historyCharts = document.querySelectorAll('.metric-history');
+                historyCharts.forEach(history => {
+                    const chart = Chart.getChart(history);
+                    if (chart) {
+                        const data = chart.data.datasets[0].data;
+                        data.shift();
+                        data.push(Math.random() * 100);
+                        chart.update('none');
+                    }
+                });
+
+                // Check for alerts
+                checkSystemAlerts();
+            }, 2000);
+        }
+
+        function checkSystemAlerts() {
+            const metrics = document.querySelectorAll('.system-monitor');
+            metrics.forEach(metric => {
+                const value = parseInt(metric.querySelector('.gauge-value').textContent);
+                const threshold = 80; // Example threshold
+                
+                if (value > threshold) {
+                    showAlert(`High ${metric.dataset.metric.toUpperCase()} usage detected: ${value}%`, 'warning');
+                }
+            });
+        }
+
+        // Drag and Drop Functionality
+        const dropZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        // Enhanced File Handling with Compression
+        function handleFiles(files) {
+            const previewContainer = document.getElementById('filePreview');
+            const progressBar = document.querySelector('.progress-bar');
+            const uploadProgress = document.getElementById('uploadProgress');
+            const compressionOptions = document.querySelector('.compression-options');
+            
+            if (files.length > 0) {
+                compressionOptions.style.display = 'block';
+            }
+            
+            Array.from(files).forEach((file, index) => {
+                // Validate file type
+                const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'audio/mpeg'];
+                if (!validTypes.includes(file.type)) {
+                    showAlert(`Invalid file type: ${file.name}`, 'danger');
+                    return;
+                }
+
+                // Create preview with compression info
+                const previewItem = document.createElement('div');
+                previewItem.className = 'preview-item';
+                
+                if (file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    previewItem.appendChild(img);
+                    
+                    // Add image compression preview
+                    const compressionInfo = document.createElement('div');
+                    compressionInfo.className = 'file-info';
+                    compressionInfo.innerHTML = `
+                        <div>Original: ${(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                        <div>Compressed: <span class="compressed-size">Calculating...</span></div>
+                    `;
+                    previewItem.appendChild(compressionInfo);
+                    
+                    // Simulate compression
+                    setTimeout(() => {
+                        const compressedSize = (file.size * 0.6 / 1024 / 1024).toFixed(2);
+                        compressionInfo.querySelector('.compressed-size').textContent = `${compressedSize} MB`;
+                    }, 1000);
+                } else {
+                    const icon = document.createElement('i');
+                    icon.className = `fas ${file.type.startsWith('video/') ? 'fa-video' : 'fa-music'} fa-3x`;
+                    previewItem.appendChild(icon);
+                }
+
+                // Add remove button
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-btn';
+                removeBtn.innerHTML = '×';
+                removeBtn.onclick = () => {
+                    previewItem.remove();
+                    if (previewContainer.children.length === 0) {
+                        compressionOptions.style.display = 'none';
+                    }
+                };
+                previewItem.appendChild(removeBtn);
+
+                previewContainer.appendChild(previewItem);
+
+                // Simulate upload with compression
+                uploadProgress.style.display = 'block';
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 5;
+                    progressBar.style.width = `${progress}%`;
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        showAlert(`File ${file.name} uploaded and compressed successfully`, 'success');
+                    }
+                }, 200);
+            });
+        }
+
+        function generateHeatmapData() {
+            const data = [];
+            for (let i = 0; i < 7; i++) {
+                for (let j = 0; j < 24; j++) {
+                    data.push({
+                        x: j,
+                        y: i,
+                        v: Math.random() * 100
+                    });
+                }
+            }
+            return data;
+        }
+    </script>
+</body>
+
+</html> 

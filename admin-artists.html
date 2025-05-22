@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- favicon -->
+    <link rel="shortcut icon" href="Assets/img/favicon/logo.png" type="image/x-icon">
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- bootstrap cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- cloud cdn  -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css'>
+
+    <!-- bootstrap local -->
+    <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.css">
+
+    <!-- custom css  -->
+    <link rel="stylesheet" href="Assets/css/style.css" />
+    <title>SRECOEDZ - Artist Management</title>
+    <style>
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: cover;
+        }
+        .social-media-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .social-media-input i {
+            width: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- navbar -->
+    <nav class="shadow-lg">
+        <div class="logo">
+            <img src="Assets/img/logo/logo.png" alt="Logo Image">
+        </div>
+        <ul class="min-link">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="music.html">MUSIC</a></li>
+            <li><a href="video.html">VIDEO</a></li>
+            <li><a href="admin.html">ADMIN</a></li>
+        </ul>
+        <div class="hamburger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="music.html">MUSIC</a></li>
+            <li><a href="video.html">VIDEOS</a></li>
+            <li><a href="album.html">ALBUM</a></li>
+            <li><a href="artists.html">ARTISTS</a></li>
+            <li><a href="news.html">NEWS</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="admin.html">ADMIN</a></li>
+        </ul>
+    </nav>
+    <!-- navbar  -->
+
+    <!-- Artist Management Content -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1>Artist Management</h1>
+                    <a href="admin.html" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+
+                <!-- Breadcrumb Navigation -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="admin.html">Admin Panel</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Artist Management</li>
+                    </ol>
+                </nav>
+                
+                <!-- Add New Artist -->
+                <div class="card shadow mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Add New Artist</h5>
+                        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#artistForm">
+                            Toggle Form
+                        </button>
+                    </div>
+                    <div class="card-body collapse show" id="artistForm">
+                        <form id="addArtistForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="artistName" class="form-label">Artist Name</label>
+                                    <input type="text" class="form-control" id="artistName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="primaryGenre" class="form-label">Primary Genre</label>
+                                    <select class="form-select" id="primaryGenre" required>
+                                        <option value="">Select Genre</option>
+                                        <option value="pop">Pop</option>
+                                        <option value="rock">Rock</option>
+                                        <option value="hip-hop">Hip Hop</option>
+                                        <option value="electronic">Electronic</option>
+                                        <option value="jazz">Jazz</option>
+                                        <option value="classical">Classical</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="country" class="form-label">Country</label>
+                                    <input type="text" class="form-control" id="country" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="debutDate" class="form-label">Debut Date</label>
+                                    <input type="date" class="form-control" id="debutDate" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="artistPhoto" class="form-label">Artist Photo</label>
+                                    <input type="file" class="form-control" id="artistPhoto" accept="image/*" required>
+                                    <img id="photoPreview" class="preview-image mt-2" style="display: none;">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="coverImage" class="form-label">Cover Image</label>
+                                    <input type="file" class="form-control" id="coverImage" accept="image/*">
+                                    <img id="coverPreview" class="preview-image mt-2" style="display: none;">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="biography" class="form-label">Biography</label>
+                                <textarea class="form-control" id="biography" rows="4" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Social Media Links</label>
+                                <div id="socialMediaContainer">
+                                    <div class="social-media-input">
+                                        <i class="fab fa-instagram"></i>
+                                        <input type="url" class="form-control" placeholder="Instagram URL">
+                                    </div>
+                                    <div class="social-media-input">
+                                        <i class="fab fa-twitter"></i>
+                                        <input type="url" class="form-control" placeholder="Twitter URL">
+                                    </div>
+                                    <div class="social-media-input">
+                                        <i class="fab fa-youtube"></i>
+                                        <input type="url" class="form-control" placeholder="YouTube URL">
+                                    </div>
+                                    <div class="social-media-input">
+                                        <i class="fab fa-facebook"></i>
+                                        <input type="url" class="form-control" placeholder="Facebook URL">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="featured">
+                                    <label class="form-check-label" for="featured">
+                                        Feature this artist on homepage
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Artist</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Artist List -->
+                <div class="card shadow">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Manage Existing Artists</h5>
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control" id="searchArtist" placeholder="Search artists...">
+                                <select class="form-select" id="filterGenre" style="width: auto;">
+                                    <option value="">All Genres</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Photo</th>
+                                        <th>Name</th>
+                                        <th>Genre</th>
+                                        <th>Country</th>
+                                        <th>Debut Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="artistList">
+                                    <!-- Artist entries will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="Assets/js/index.js"></script>
+    <script>
+        // Sample data - replace with actual data from your backend
+        const sampleArtists = [
+            {
+                name: 'Artist 1',
+                genre: 'Pop',
+                country: 'USA',
+                debutDate: '2020-01-01',
+                status: 'Active',
+                photo: 'path/to/photo1.jpg'
+            },
+            {
+                name: 'Artist 2',
+                genre: 'Rock',
+                country: 'UK',
+                debutDate: '2019-06-15',
+                status: 'Inactive',
+                photo: 'path/to/photo2.jpg'
+            }
+        ];
+
+        // Populate genre filter
+        const genreFilter = document.getElementById('filterGenre');
+        const genres = ['Pop', 'Rock', 'Hip Hop', 'Electronic', 'Jazz', 'Classical'];
+        genres.forEach(genre => {
+            const option = document.createElement('option');
+            option.value = genre;
+            option.textContent = genre;
+            genreFilter.appendChild(option);
+        });
+
+        // Populate artist list
+        const artistList = document.getElementById('artistList');
+        sampleArtists.forEach(artist => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <img src="${artist.photo}" alt="${artist.name}" class="rounded-circle" width="50" height="50">
+                </td>
+                <td>${artist.name}</td>
+                <td>${artist.genre}</td>
+                <td>${artist.country}</td>
+                <td>${artist.debutDate}</td>
+                <td>
+                    <span class="badge ${artist.status === 'Active' ? 'bg-success' : 'bg-secondary'}">
+                        ${artist.status}
+                    </span>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-primary" onclick="editArtist('${artist.name}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-info" onclick="viewProfile('${artist.name}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteArtist('${artist.name}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            `;
+            artistList.appendChild(row);
+        });
+
+        // Preview functionality
+        document.getElementById('artistPhoto').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const photoPreview = document.getElementById('photoPreview');
+                photoPreview.src = URL.createObjectURL(file);
+                photoPreview.style.display = 'block';
+            }
+        });
+
+        document.getElementById('coverImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const coverPreview = document.getElementById('coverPreview');
+                coverPreview.src = URL.createObjectURL(file);
+                coverPreview.style.display = 'block';
+            }
+        });
+
+        // Search functionality
+        document.getElementById('searchArtist').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = artistList.getElementsByTagName('tr');
+            
+            Array.from(rows).forEach(row => {
+                const name = row.cells[1].textContent.toLowerCase();
+                const genre = row.cells[2].textContent.toLowerCase();
+                const country = row.cells[3].textContent.toLowerCase();
+                
+                if (name.includes(searchTerm) || genre.includes(searchTerm) || country.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter functionality
+        document.getElementById('filterGenre').addEventListener('change', function(e) {
+            const selectedGenre = e.target.value.toLowerCase();
+            const rows = artistList.getElementsByTagName('tr');
+            
+            Array.from(rows).forEach(row => {
+                const genre = row.cells[2].textContent.toLowerCase();
+                
+                if (!selectedGenre || genre === selectedGenre) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Handle form submission
+        document.getElementById('addArtistForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your artist creation logic here
+            alert('Artist creation functionality will be implemented here');
+        });
+
+        function editArtist(name) {
+            // Add your edit logic here
+            alert(`Edit functionality for ${name} will be implemented here`);
+        }
+
+        function viewProfile(name) {
+            // Add your profile view logic here
+            alert(`Profile view functionality for ${name} will be implemented here`);
+        }
+
+        function deleteArtist(name) {
+            if (confirm(`Are you sure you want to delete ${name}?`)) {
+                // Add your delete logic here
+                alert(`Delete functionality for ${name} will be implemented here`);
+            }
+        }
+    </script>
+</body>
+
+</html> 

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- favicon -->
+    <link rel="shortcut icon" href="Assets/img/favicon/logo.png" type="image/x-icon">
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- bootstrap cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- cloud cdn  -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css'>
+
+    <!-- bootstrap local -->
+    <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.css">
+
+    <!-- custom css  -->
+    <link rel="stylesheet" href="Assets/css/style.css" />
+    <title>SRECOEDZ - News Management</title>
+    <style>
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: cover;
+        }
+        .news-content {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .tag-item {
+            background-color: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .tag-item button {
+            border: none;
+            background: none;
+            padding: 0;
+            color: #6c757d;
+            cursor: pointer;
+        }
+        .tag-item button:hover {
+            color: #dc3545;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- navbar -->
+    <nav class="shadow-lg">
+        <div class="logo">
+            <img src="Assets/img/logo/logo.png" alt="Logo Image">
+        </div>
+        <ul class="min-link">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="music.html">MUSIC</a></li>
+            <li><a href="video.html">VIDEO</a></li>
+            <li><a href="admin.html">ADMIN</a></li>
+        </ul>
+        <div class="hamburger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="music.html">MUSIC</a></li>
+            <li><a href="video.html">VIDEOS</a></li>
+            <li><a href="album.html">ALBUM</a></li>
+            <li><a href="artists.html">ARTISTS</a></li>
+            <li><a href="news.html">NEWS</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="admin.html">ADMIN</a></li>
+        </ul>
+    </nav>
+    <!-- navbar  -->
+
+    <!-- News Management Content -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1>News Management</h1>
+                    <a href="admin.html" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+
+                <!-- Breadcrumb Navigation -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="admin.html">Admin Panel</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">News Management</li>
+                    </ol>
+                </nav>
+                
+                <!-- Add New News -->
+                <div class="card shadow mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Add New News Article</h5>
+                        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#newsForm">
+                            Toggle Form
+                        </button>
+                    </div>
+                    <div class="card-body collapse show" id="newsForm">
+                        <form id="addNewsForm">
+                            <div class="row">
+                                <div class="col-md-8 mb-3">
+                                    <label for="newsTitle" class="form-label">Article Title</label>
+                                    <input type="text" class="form-control" id="newsTitle" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="category" class="form-label">Category</label>
+                                    <select class="form-select" id="category" required>
+                                        <option value="">Select Category</option>
+                                        <option value="music">Music</option>
+                                        <option value="events">Events</option>
+                                        <option value="releases">Releases</option>
+                                        <option value="interviews">Interviews</option>
+                                        <option value="industry">Industry News</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="author" class="form-label">Author</label>
+                                    <input type="text" class="form-control" id="author" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="publishDate" class="form-label">Publish Date</label>
+                                    <input type="datetime-local" class="form-control" id="publishDate" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="featuredImage" class="form-label">Featured Image</label>
+                                    <input type="file" class="form-control" id="featuredImage" accept="image/*" required>
+                                    <img id="imagePreview" class="preview-image mt-2" style="display: none;">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="relatedArtists" class="form-label">Related Artists</label>
+                                    <select class="form-select" id="relatedArtists" multiple>
+                                        <option value="artist1">Artist 1</option>
+                                        <option value="artist2">Artist 2</option>
+                                        <option value="artist3">Artist 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="content" class="form-label">Content</label>
+                                <textarea class="form-control news-content" id="content" rows="10" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tags" class="form-label">Tags</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="tagInput" placeholder="Add tags...">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="addTag()">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                </div>
+                                <div id="tagList" class="tag-list">
+                                    <!-- Tags will be added here -->
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="featured">
+                                    <label class="form-check-label" for="featured">
+                                        Feature this article on homepage
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Publish Article</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- News List -->
+                <div class="card shadow">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Manage News Articles</h5>
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control" id="searchNews" placeholder="Search articles...">
+                                <select class="form-select" id="filterCategory" style="width: auto;">
+                                    <option value="">All Categories</option>
+                                </select>
+                                <select class="form-select" id="filterStatus" style="width: auto;">
+                                    <option value="">All Status</option>
+                                    <option value="published">Published</option>
+                                    <option value="draft">Draft</option>
+                                    <option value="scheduled">Scheduled</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Author</th>
+                                        <th>Publish Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="newsList">
+                                    <!-- News entries will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="Assets/js/index.js"></script>
+    <script>
+        // Sample data - replace with actual data from your backend
+        const sampleNews = [
+            {
+                title: 'New Album Release',
+                category: 'Releases',
+                author: 'John Doe',
+                publishDate: '2024-03-20T10:00',
+                status: 'Published',
+                image: 'path/to/image1.jpg'
+            },
+            {
+                title: 'Artist Interview',
+                category: 'Interviews',
+                author: 'Jane Smith',
+                publishDate: '2024-03-19T15:30',
+                status: 'Draft',
+                image: 'path/to/image2.jpg'
+            }
+        ];
+
+        // Populate category filter
+        const categoryFilter = document.getElementById('filterCategory');
+        const categories = ['Music', 'Events', 'Releases', 'Interviews', 'Industry News'];
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.toLowerCase();
+            option.textContent = category;
+            categoryFilter.appendChild(option);
+        });
+
+        // Populate news list
+        const newsList = document.getElementById('newsList');
+        sampleNews.forEach(news => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <img src="${news.image}" alt="${news.title}" class="rounded" width="50" height="50">
+                </td>
+                <td>${news.title}</td>
+                <td>${news.category}</td>
+                <td>${news.author}</td>
+                <td>${news.publishDate}</td>
+                <td>
+                    <span class="badge ${news.status === 'Published' ? 'bg-success' : 
+                        news.status === 'Draft' ? 'bg-warning' : 'bg-info'}">
+                        ${news.status}
+                    </span>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-primary" onclick="editNews('${news.title}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-info" onclick="viewNews('${news.title}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteNews('${news.title}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            `;
+            newsList.appendChild(row);
+        });
+
+        // Preview functionality
+        document.getElementById('featuredImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const imagePreview = document.getElementById('imagePreview');
+                imagePreview.src = URL.createObjectURL(file);
+                imagePreview.style.display = 'block';
+            }
+        });
+
+        // Tag functionality
+        function addTag() {
+            const tagInput = document.getElementById('tagInput');
+            const tag = tagInput.value.trim();
+            
+            if (tag) {
+                const tagList = document.getElementById('tagList');
+                const tagItem = document.createElement('div');
+                tagItem.className = 'tag-item';
+                tagItem.innerHTML = `
+                    ${tag}
+                    <button type="button" onclick="this.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                tagList.appendChild(tagItem);
+                tagInput.value = '';
+            }
+        }
+
+        // Search functionality
+        document.getElementById('searchNews').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = newsList.getElementsByTagName('tr');
+            
+            Array.from(rows).forEach(row => {
+                const title = row.cells[1].textContent.toLowerCase();
+                const category = row.cells[2].textContent.toLowerCase();
+                const author = row.cells[3].textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || category.includes(searchTerm) || author.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter functionality
+        function applyFilters() {
+            const selectedCategory = document.getElementById('filterCategory').value.toLowerCase();
+            const selectedStatus = document.getElementById('filterStatus').value.toLowerCase();
+            const rows = newsList.getElementsByTagName('tr');
+            
+            Array.from(rows).forEach(row => {
+                const category = row.cells[2].textContent.toLowerCase();
+                const status = row.cells[5].textContent.toLowerCase();
+                
+                const categoryMatch = !selectedCategory || category === selectedCategory;
+                const statusMatch = !selectedStatus || status === selectedStatus;
+                
+                row.style.display = categoryMatch && statusMatch ? '' : 'none';
+            });
+        }
+
+        document.getElementById('filterCategory').addEventListener('change', applyFilters);
+        document.getElementById('filterStatus').addEventListener('change', applyFilters);
+
+        // Handle form submission
+        document.getElementById('addNewsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your news creation logic here
+            alert('News article creation functionality will be implemented here');
+        });
+
+        function editNews(title) {
+            // Add your edit logic here
+            alert(`Edit functionality for ${title} will be implemented here`);
+        }
+
+        function viewNews(title) {
+            // Add your view logic here
+            alert(`View functionality for ${title} will be implemented here`);
+        }
+
+        function deleteNews(title) {
+            if (confirm(`Are you sure you want to delete ${title}?`)) {
+                // Add your delete logic here
+                alert(`Delete functionality for ${title} will be implemented here`);
+            }
+        }
+    </script>
+</body>
+
+</html> 
